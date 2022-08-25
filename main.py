@@ -14,6 +14,8 @@ def format_sentence(sent):
     tokens = nltk.word_tokenize(sent)
     return({word: True for word in tokens})
 
+
+
 def get_reviews(data, rating):
     ''' Return the reviews from the rows in the data set with the
         given rating '''
@@ -21,23 +23,17 @@ def get_reviews(data, rating):
     return list(data.loc[rows, 'Review'])
 
 
+# Data = "A B C D"
+# train_prop = float(input('Enter a proportion between 0 and 1: '))
+    
 def split_train_test(data, train_prop):
-    ''' input: A list of data, train_prop is a number between 0 and 1
-              specifying the proportion of data in the training set.
-        output: A tuple of two lists, (training, testing)
-    '''
-    # TODO: You will write this function, and change the return value
-    return ([], [])
-
-def format_for_classifier(data_list, label):
-    ''' input: A list of documents represented as text strings
-               The label of the text strings.
-        output: a list with one element for each doc in data_list,
-                where each entry is a list of two elements:
-                [format_sentence(doc), label]
-    '''
-    # TODO: Write this function, change the return value
-    return []
+    keys = Data.split(' ')
+    list = len(keys)
+    output = int((train_prop * list)//1)
+    X = slice(output)
+    Y = slice(output,list)
+    print(keys[X], keys[Y])
+# split_train_test(Data, train_prop)
 
 def classify_reviews():
     ''' Perform sentiment classification on movie reviews ''' 
@@ -89,5 +85,46 @@ def classify_reviews():
     # TODO: Print the misclassified examples
 
 
+
 if __name__ == "__main__":
     classify_reviews()
+
+
+
+s = "Yeah baby I like it like that You gotta believe me when I tell you I said I like it like that"
+def train(model):
+    words = model.split(' ') 
+    dict = {}
+    for i in range(len(words)-1):
+        current_word = words[i]
+        next_word = words[i+1]
+        if current_word not in dict:
+            dict[current_word] = []
+        dict[current_word].append(next_word)
+    print(dict)
+    return dict 
+
+cardi_B = train("Yeah baby I like it like that You gotta believe me when I tell you I said I like it like that")
+    
+def generate(model, first_word, num_words): 
+    sentence = first_word
+    for i in range(num_words):
+        current_word = random.choice(model[first_word])
+        first_word = current_word
+        sentence = sentence + " "+ current_word
+    return sentence
+    
+print(generate(cardi_B, "I", 10))
+
+'''
+def format_for_classifier(data_list, label):
+    dict = {}
+    phrases = split_train_test(data_list, 0.5)
+    words = phrases.split(' ')
+    for i in len(phrases):
+        for w in len(words):
+        #     dict.append(words[w] == True)
+            print(words)
+        
+format_for_classifier(("A good one", "The best!"), "pos")
+'''
